@@ -1,0 +1,46 @@
+project: insureai_lakehouse
+domain: property_and_casualty
+default_load_type: full
+entities:
+  customers:
+    source_format: csv
+    source_path: data/sample/customers
+    bronze_table: bronze_customers
+    primary_key: customer_id
+    load_type: full
+    expected_columns: [customer_id, first_name, last_name, email, postcode, customer_since]
+  policies:
+    source_format: csv
+    source_path: data/sample/policies
+    bronze_table: bronze_policies
+    primary_key: policy_id
+    load_type: full
+    expected_columns: [policy_id, customer_id, policy_type, start_date, end_date, annual_premium, status]
+  claims:
+    source_format: csv
+    source_path: data/sample/claims
+    bronze_table: bronze_claims
+    primary_key: claim_id
+    load_type: full
+    expected_columns: [claim_id, policy_id, incident_date, reported_date, claim_type, claimed_amount, status]
+  claim_transactions:
+    source_format: csv
+    source_path: data/sample/claim_transactions
+    bronze_table: bronze_claim_transactions
+    primary_key: transaction_id
+    load_type: full
+    expected_columns: [transaction_id, claim_id, transaction_type, amount, transaction_date]
+  claim_notes:
+    source_format: json
+    source_path: data/sample/claim_notes
+    bronze_table: bronze_claim_notes
+    primary_key: note_id
+    load_type: full
+    expected_columns: [note_id, claim_id, note_timestamp, note_text, author_role]
+  claim_documents:
+    source_format: json
+    source_path: data/sample/claim_documents
+    bronze_table: bronze_claim_documents
+    primary_key: document_id
+    load_type: full
+    expected_columns: [document_id, claim_id, document_type, document_text, created_at]
